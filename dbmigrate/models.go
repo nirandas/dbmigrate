@@ -15,7 +15,11 @@ func (mc *MigrationContent) RunUp(db *sql.DB, batch int) error {
 	if err != nil {
 		return err
 	}
-	_, err = db.Exec("insert into _migration_history_ (migration,batch) values($1,$2)", mc.Name, batch)
+sql:="insert into _migration_history_ (migration,batch) values($1,$2)"
+if Config.DBType == "mysql"{
+sql = "insert into _migration_history_ (migration,batch) values(?,?)"
+}
+	_, err = db.Exec(sql, mc.Name, batch)
 	return nil
 }
 
@@ -24,6 +28,10 @@ func (mc *MigrationContent) RunDown(db *sql.DB) error {
 	if err != nil {
 		return err
 	}
-	db.Exec("delete from _migration_history_ where migration = $1", mc.Name)
+sql:="delete from _migration_history_ where migration = $1"
+if Config.DBType == "mysql"{
+sql = "delete from _migration_history_ where migration = ?"
+}
+	db.Exec(sql, mc.Name)
 	return nil
 }

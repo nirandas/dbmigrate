@@ -3,6 +3,7 @@ package dbmigrate
 import (
 	"database/sql"
 	_ "github.com/lib/pq"
+_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"log"
 	"path"
