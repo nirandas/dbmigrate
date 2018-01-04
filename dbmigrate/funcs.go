@@ -2,8 +2,8 @@ package dbmigrate
 
 import (
 	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"log"
 	"path"
@@ -87,8 +87,8 @@ func ParseMigrationRecords(db *sql.DB) []MigrationRecord {
 
 type MigrationContent struct {
 	Name string
-	Up   string
-	Down string
+	Up   []string
+	Down []string
 }
 
 func ParseMigration(mpath string) *MigrationContent {
@@ -109,8 +109,8 @@ func ParseMigration(mpath string) *MigrationContent {
 		log.Fatalf("Invalid migration file %s", mpath)
 	}
 	return &MigrationContent{
-		Up:   parts[0],
-		Down: parts[1],
+		Up:   strings.Split(parts[0], "--go--"),
+		Down: strings.Split(parts[1], "--go--"),
 		Name: path.Base(mpath),
 	}
 }

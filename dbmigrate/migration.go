@@ -51,7 +51,7 @@ func Process(args []string) {
 		return
 	}
 
-	fmt.Println("Please talk english!")
+	fmt.Println("Invalid command")
 }
 
 func handleMake(args []string) {
