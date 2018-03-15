@@ -9,9 +9,10 @@ import (
 )
 
 type Configuration struct {
-	Path   string `json:"path"`
-	DBType string `json:"type"`
-	DSN    string `json:"dsn"`
+	Path           string `json:"path"`
+	DBType         string `json:"type"`
+	DSN            string `json:"dsn"`
+	MigrationTable string `json:"migrationTable"`
 }
 
 var all bool

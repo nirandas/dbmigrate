@@ -6,10 +6,12 @@ import (
 	"os"
 	"path"
 
+	"github.com/joho/godotenv"
 	"github.com/nirandas/dbmigrate/dbmigrate"
 )
 
 func main() {
+	_ = godotenv.Load()
 	if len(os.Args) == 2 && os.Args[1] == "init" {
 		createConfig()
 		return
@@ -42,6 +44,9 @@ func loadConfig() bool {
 		panic("Error parsing config file " + err.Error())
 	}
 	dbmigrate.Config.DSN = os.ExpandEnv(dbmigrate.Config.DSN)
+	if dbmigrate.Config.MigrationTable == "" {
+		dbmigrate.Config.MigrationTable = "_migration_history_"
+	}
 	return true
 }
 

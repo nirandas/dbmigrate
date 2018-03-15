@@ -59,13 +59,13 @@ func OpenDb() *sql.DB {
 	if err != nil {
 		log.Fatalf("Couldn't open the database %s", err.Error())
 	}
-	db.Exec("create table _migration_history_ (migration varchar (255), batch int);")
+	db.Exec("create table " + Config.MigrationTable + " (migration varchar (255), batch int);")
 	return db
 }
 
 func ParseMigrationRecords(db *sql.DB) []MigrationRecord {
 	rec := []MigrationRecord{}
-	rows, err := db.Query("select * from _migration_history_ order by migration")
+	rows, err := db.Query("select * from " + Config.MigrationTable + " order by migration")
 	if err != nil {
 		log.Fatalf("Reading migration history failed %s", err.Error())
 	}

@@ -17,9 +17,9 @@ func (mc *MigrationContent) RunUp(db *sql.DB, batch int) error {
 			return err
 		}
 	}
-	sql := "insert into _migration_history_ (migration,batch) values($1,$2)"
+	sql := "insert into " + Config.MigrationTable + "(migration,batch) values($1,$2)"
 	if Config.DBType == "mysql" {
-		sql = "insert into _migration_history_ (migration,batch) values(?,?)"
+		sql = "insert into " + Config.MigrationTable + " (migration,batch) values(?,?)"
 	}
 	_, _ = db.Exec(sql, mc.Name, batch)
 	return nil
@@ -32,9 +32,9 @@ func (mc *MigrationContent) RunDown(db *sql.DB) error {
 			return err
 		}
 	}
-	sql := "delete from _migration_history_ where migration = $1"
+	sql := "delete from " + Config.MigrationTable + " where migration = $1"
 	if Config.DBType == "mysql" {
-		sql = "delete from _migration_history_ where migration = ?"
+		sql = "delete from " + Config.MigrationTable + " where migration = ?"
 	}
 	db.Exec(sql, mc.Name)
 	return nil
